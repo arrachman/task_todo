@@ -9,12 +9,7 @@ import _ from '@lodash';
 import { memo, useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 
-import { newSection, saveSection, setSection, removeSection } from '../../store/sectionSlice';
-import { newLesson, saveLesson, setLesson } from '../../store/lessonSlice';
-import { newItem, getItem, saveItem, setItem, openCardDialog, setTitle } from '../../store/itemSlice';
-
-import { getCourse } from '../../store/courseSlice';
-import { add, remove, edit, check } from '../../store/todoSlice';
+import { add, remove, edit, check, openCardDialog } from '../../store/todoSlice';
 
 import { useDeepCompareEffect } from '@fuse/hooks';
 import { useParams } from 'react-router-dom';
@@ -25,24 +20,9 @@ import ItemDialog from './board/ItemDialog';
 function LessonTab(props) {
 	const dispatch = useDispatch();
 	const routeParams = useParams();
-	const { courseId } = routeParams;
-	const course = useSelector(({ adminApp }) => adminApp.course.data)
 	const todo = useSelector(({ adminApp }) => adminApp.todo)
-	const section = useSelector(({ adminApp }) => adminApp.section)
-	const lesson = useSelector(({ adminApp }) => adminApp.lesson)
 	const [ task, setTask ] = useState('')
 
-	useDeepCompareEffect(() => {
-		dispatch(newSection());
-		dispatch(newLesson());
-		dispatch(newItem());
-		dispatch(getItem());
-		let defaultHideLessons = []
-		course && course.length == 1 && course[0].sections.map(data => {
-			defaultHideLessons.push(true)
-		})
-
-	}, [dispatch]);
 
 	function handleSave() {
 		dispatch(add({id: todo.todo.length+1, title: task, status: 0}))
@@ -88,7 +68,7 @@ function LessonTab(props) {
 						{data.status == 0 &&
 							<Icon color="action" style={{float: 'right', margin: '10px', cursor: 'pointer'}} onClick={()=>removeSectionAction(data.id)}>clear</Icon>
 						}
-						<Link className="cursor-pointer" variant="body2" style={{cursor: 'pointer'}} onClick={()=> dispatch(openCardDialog({id: data.id}))}>
+						<Link className="cursor-pointer" variant="body2" style={{cursor: 'pointer'}} onClick={()=> dispatch(openCardDialog({id: data.id, title: data.title}))}>
 							<Typography className="text-16 font-medium -mt-32" style={{marginLeft: '40px'}}>{data.title}</Typography>
 						</Link>
 					</Paper>

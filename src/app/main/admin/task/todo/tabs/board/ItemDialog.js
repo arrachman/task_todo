@@ -2,7 +2,7 @@ import Dialog from '@material-ui/core/Dialog';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeCardDialog } from '../../../store/itemSlice';
+import { closeCardDialog } from '../../../store/todoSlice';
 import Item from './item/Item';
 
 const useStyles = makeStyles(theme => ({
@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 
 function ItemDialog(props) {
 	const dispatch = useDispatch();
-	const _cardDialogOpen = useSelector(({ adminApp }) => adminApp.item);
+	const _cardDialogOpen = useSelector(({ adminApp }) => adminApp.todo);
 	const cardDialogOpen = _cardDialogOpen && _cardDialogOpen.openDialog ? _cardDialogOpen.openDialog : false || false;
 	const classes = useStyles(props);
 

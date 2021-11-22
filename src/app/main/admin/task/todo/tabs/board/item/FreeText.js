@@ -12,8 +12,7 @@ import JoditEditor from "jodit-react";
 import { useParams } from 'react-router-dom';
 
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { setItemType, setFreeText, closeCardDialog, setTitle, setContent, saveLessonData } from '../../../../store/itemSlice';
-import { getCourse } from '../../../../store/courseSlice';
+import { closeCardDialog, setTitle, editTask } from '../../../../store/todoSlice';
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -28,24 +27,15 @@ function FreeText(props) {
 	const routeParams = useParams();
 	const { courseId } = routeParams;
 	const dispatch = useDispatch();
+	const todo = useSelector(({ adminApp }) => adminApp.todo)
 	const editor = useRef(null)
 	
 	const config = {
 		readonly: false // all options from https://xdsoft.net/jodit/doc/
 	}
-	const item = useSelector(({ adminApp }) => adminApp.item)
-	const lesson = useSelector(({ adminApp }) => adminApp.item.lesson)
-	const [_content, _setContent] = useState(lesson && lesson.content);
-	const itemLesson = useSelector(({ adminApp }) => adminApp.itemLesson)
-	const lessonId = useSelector(({ adminApp }) => adminApp.lesson.lessonId)
-	const freeText = useSelector(({ adminApp }) => adminApp.item.freeText)
+	const [_content, _setContent] = useState('');
 	const containerRef = useRef(null);
 	const classes = useStyles(props);
-
-	useDeepCompareEffect(() => {
-		_setContent(lesson.content)
-		// _content = lesson && typeof lesson.content === 'string' && lesson.content || ''
-	}, [lesson]);
 
 	return (
 		<>
@@ -58,7 +48,7 @@ function FreeText(props) {
 			variant="outlined"
 			fullWidth
 			onChange={(e)=>dispatch(setTitle(e.target.value))}
-			value={lesson.title}
+			value={todo.title}
 		/>
 		{/*  */}
 		<div className="items-center justify-between p-20">
@@ -76,7 +66,9 @@ function FreeText(props) {
 					variant="contained"
 					color="secondary"
 					// disabled={freeText == ''}
-					onClick={()=>dispatch(saveLessonData(_content)).then(action => {dispatch(getCourse(routeParams));dispatch(closeCardDialog())} )}
+					onClick={()=>
+						dispatch(editTask())
+					}
 				>
 					Save
 				</Button>

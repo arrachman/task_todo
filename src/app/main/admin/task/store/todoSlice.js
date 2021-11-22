@@ -18,6 +18,9 @@ const courseSlice = createSlice({
 	name: 'adminApp/course',
 	initialState: {
 		data: [],
+		openDialog: false,
+		title: '',
+		id: 0,
 	},
 	reducers: {
 		add: {
@@ -47,13 +50,42 @@ const courseSlice = createSlice({
 					if(data.id == id)
 						data.status = data.status == 0 ? 1 : 0
 				})
-				console.log(state.todo)
 			}
 		},
 		edit: {
 			reducer: (state, action) => {
 				// action.payload.concat(state.todo)
 				state.todo = [action.payload, ...state.todo]
+			}
+		},
+		setTitle: {
+			reducer: (state, action) => {
+				// action.payload.concat(state.todo)
+				state.title = action.payload
+			}
+		},
+		editTask: {
+			reducer: (state, action) => {
+				state.todo.map((data, idx) => {
+					if(data.id == state.id)
+						data.title = state.title
+				})
+				state.id = 0
+				state.title = ''
+				state.openDialog = false
+			}
+		},
+		openCardDialog: {
+			reducer: (state, action) => {
+				state.id = action.payload.id
+				state.title = action.payload.title
+				state.openDialog = true
+			},
+		},
+		closeCardDialog: {
+			reducer: (state) => {
+				state.title = ''
+				state.openDialog = false
 			}
 		},
 	},
@@ -64,6 +96,6 @@ const courseSlice = createSlice({
 	}
 });
 
-export const { add, remove, edit, check } = courseSlice.actions;
+export const { add, remove, edit, check, openCardDialog, closeCardDialog, setTitle, editTask } = courseSlice.actions;
 
 export default courseSlice.reducer;

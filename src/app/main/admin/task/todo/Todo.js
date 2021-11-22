@@ -10,7 +10,6 @@ import * as yup from 'yup';
 import reducer from '../store';
 import LessonTab from './tabs/LessonTab';
 import { useTheme } from '@material-ui/core/styles';
-import { resetCourse, newCourse, getCourse, getCategoryList } from '../store/courseSlice';
 import { getData } from '../store/todoSlice';
 import { useHistory } from 'react-router-dom';
 
@@ -51,32 +50,7 @@ function Todo(props) {
 	}
 
 	useDeepCompareEffect(() => {
-		function updateCourseState() {
-			const { courseId } = routeParams;
-
-			if (courseId === 'new') {
-				/**
-				 * Create New Course data
-				 */
-				dispatch(newCourse());
-			} else {
-				setIsEdit(true)
-				/**
-				 * Get Course data
-				 */
-				dispatch(getCourse(routeParams)).then(action => {
-					/**
-					 * If the requested course is not exist show message
-					 */
-					if (!action.payload) {
-						setNoCourse(true);
-					}
-				});
-			}
-		}
-
 		dispatch(getData())
-		updateCourseState();
 	}, [dispatch, routeParams]);
 
 	useEffect(() => {
@@ -93,7 +67,6 @@ function Todo(props) {
 
 	useEffect(() => {
 		return () => {
-			dispatch(resetCourse());
 			setNoCourse(false);
 		};
 	}, [dispatch]);

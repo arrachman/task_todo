@@ -15,9 +15,6 @@ import Card from '@material-ui/core/Card';
 import clsx from 'clsx';
 import Icon from '@material-ui/core/Icon';
 import FreeText from './FreeText';
-import Video from './Video';
-import Audio from './Audio';
-import { setItemType, closeCardDialog } from '../../../../store/itemSlice';
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -31,10 +28,6 @@ const useStyles = makeStyles(theme => ({
 function Item(props) {
 	const dispatch = useDispatch();
 
-	const item = useSelector(({ adminApp }) => adminApp.item)
-	const itemLesson = useSelector(({ adminApp }) => adminApp.itemLesson)
-	const lessonId = useSelector(({ adminApp }) => adminApp.lesson.lessonId)
-	const itemType = useSelector(({ adminApp }) => adminApp.item.itemType)
 	const containerRef = useRef(null);
 	const classes = useStyles(props);
 
@@ -58,92 +51,7 @@ function Item(props) {
 
 			<DialogContent className="p-16 sm:p-24">
 				<div className="flex flex-1 flex-auto flex-col w-full h-full relative">
-					{itemType == "freeText" && <FreeText />}
-					{itemType == "video" && <Video />}
-					{itemType == "audio" && <Audio />}
-					{itemType == "default" && 
-						<>
-						<Card
-							className={clsx(
-								classes.card,
-								'shadow-lg',
-								'w-full mb-16 rounded-16 cursor-pointer border-1'
-							)}
-							onClick={()=>dispatch(setItemType('video'))}
-						>
-							<div className="p-16 pb-0">
-								<div className="flex items-center mb-12 -mx-4">
-									<div
-										className={clsx(
-											'flex items-center px-8 py-4 mx-4 rounded-16',
-										)}
-										style={{marginBottom: '10px'}}
-									>
-										<Icon className="text-16">ondemand_video</Icon>
-									</div>
-									<Typography className="font-medium mb-12">Video</Typography>
-								</div>
-							</div>
-						</Card>
-						<Card
-							className={clsx(
-								classes.card,
-								'shadow-lg',
-								'w-full mb-16 rounded-16 cursor-pointer border-1'
-							)}
-							onClick={()=>dispatch(setItemType('audio'))}
-						>
-							<div className="p-16 pb-0">
-								<div className="flex items-center mb-12 -mx-4">
-									<div
-										className={clsx(
-											'flex items-center px-8 py-4 mx-4 rounded-16',
-										)}
-										style={{marginBottom: '10px'}}
-									>
-										<Icon className="text-16">audiotrack</Icon>
-									</div>
-									<Typography className="font-medium mb-12">Audio</Typography>
-								</div>
-							</div>
-						</Card>
-						<Card
-							className={clsx(
-								classes.card,
-								'shadow-lg',
-								'w-full mb-16 rounded-16 cursor-pointer border-1'
-							)}
-							onClick={()=>dispatch(setItemType('freeText'))}
-						>
-							<div className="p-16 pb-0">
-								<div className="flex items-center mb-12 -mx-4">
-									<div
-										className={clsx(
-											'flex items-center px-8 py-4 mx-4 rounded-16',
-										)}
-										style={{marginBottom: '10px'}}
-									>
-										<Icon className="text-16">subject</Icon>
-									</div>
-									<Typography className="font-medium mb-12">Free Text</Typography>
-								</div>
-							</div>
-						</Card>
-
-						<div className="items-center justify-between p-20">
-							<span class="freeTextButton">
-								<Button
-									className="whitespace-nowrap mx-4"
-									variant="contained"
-									color="secondary"
-									onClick={() => dispatch(closeCardDialog())}
-								>
-									Cancel
-								</Button>
-							</span>
-						</div>
-						</>
-					}
+					<FreeText />
 				</div>
 			</DialogContent>
 		</div>
