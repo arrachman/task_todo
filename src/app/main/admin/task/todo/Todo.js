@@ -25,7 +25,6 @@ let _categoryValue = []
 
 function Todo(props) {
 	const dispatch = useDispatch();
-	const course = useSelector(({ adminApp }) => adminApp.course.data)
 	
 	const theme = useTheme();
 	const routeParams = useParams();
@@ -53,17 +52,6 @@ function Todo(props) {
 		dispatch(getData())
 	}, [dispatch, routeParams]);
 
-	useEffect(() => {
-		if (!course) {
-			return;
-		}
-		/**
-		 * Reset the form on course state changes
-		 */
-		const { courseId } = routeParams;
-
-		reset(courseId === 'new' ? {id:0} : course[0]);
-	}, [course, reset]);
 
 	useEffect(() => {
 		return () => {
