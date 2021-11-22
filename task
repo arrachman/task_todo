@@ -1,9 +1,0 @@
-
-docker container run -d --network kuasai_net --name task_db -p 3306:3306 -e MYSQL_ROOT_PASSWORD='HasdfAJKD(*#r2)' -e MYSQL_ALLOW_EMPTY_PASSWORD=True -v mysql-data:/var/lib/mysql -d mysql:5.7
-docker container run -d --network kuasai_net --name task_wordpress -p 80:80 -e WORDPRESS_DB_HOST=task_db -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD='HasdfAJKD(*#r2)' -e WORDPRESS_DB_NAME=dbwpkuasai -e WORDPRESS_TABLE_PREFIX=wp_ -d wordpress:4.9.8
-docker container run --name phpmyadmin -d --link db -p 8080:80 phpmyadmin:latest
-
-
-docker rm -f task_db task_wordpress task_phpmyadmin
-
-docker rm -f task_phpmyadmincd 
